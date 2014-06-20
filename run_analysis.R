@@ -28,8 +28,8 @@ constructName <- function (toFind, description) {
 features[grep("^t", features[,2]), "descr"] = "time"
 features[grep("^f", features[,2]), "descr"] = "freq"
 features$descr <- constructName("Acc", "accelerometer")
-features$descr <- constructName("Body", "body")
 features$descr <- constructName("Gyro", "gyroscope")
+features$descr <- constructName("Body", "body")
 features$descr <- constructName("Gravity", "gravity")
 features$descr <- constructName("Jerk", "jerk")
 features$descr <- constructName("Mag", "magnitude")
@@ -53,11 +53,3 @@ xMelt <- melt(tidyData, c("subject", "activity"), measure.vars=names(xAllExtr))
 xt <- xtabs(value ~., aggregate(value ~., xMelt,mean))
 
 write.table(xt, file = "tidy_data.txt")
-
-
-
-
-
-
-
-
