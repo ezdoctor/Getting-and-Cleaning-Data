@@ -26,18 +26,18 @@ constructName <- function (toFind, description) {
   return(features$descr)
 }
 features[grep("^t", features[,2]), "descr"] = "time"
-features[grep("^f", features[,2]), "descr"] = "freq"
-features$descr <- constructName("Acc", "accelerometer")
-features$descr <- constructName("Gyro", "gyroscope")
-features$descr <- constructName("Body", "body")
-features$descr <- constructName("Gravity", "gravity")
-features$descr <- constructName("Jerk", "jerk")
-features$descr <- constructName("Mag", "magnitude")
-features$descr <- constructName("mean", "mean")
-features$descr <- constructName("std", "std")
-features$descr <- constructName("-X", "xcoord")
-features$descr <- constructName("-Y", "ycoord")
-features$descr <- constructName("-Z", "zcoord")
+features[grep("^f", features[,2]), "descr"] = "frequency"
+features$descr <- constructName("Acc", "Acc")
+features$descr <- constructName("Gyro", "Gyro")
+features$descr <- constructName("Body", "Body")
+features$descr <- constructName("Gravity", "Gravity")
+features$descr <- constructName("Jerk", "Jerk")
+features$descr <- constructName("Mag", "Magnitude")
+features$descr <- constructName("mean", "Mean")
+features$descr <- constructName("std", "Std")
+features$descr <- constructName("-X", "X")
+features$descr <- constructName("-Y", "Y")
+features$descr <- constructName("-Z", "Z")
 
 names(xAllExtr) <- features$descr[neededCols]
 names(sAll) <- "subject"
@@ -48,8 +48,5 @@ yAll[,1] = activities[yAll[,1],2]
 
 # Part 5: Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 tidyData <- cbind(sAll, xAllExtr, yAll)
-
-xMelt <- melt(tidyData, c("subject", "activity"), measure.vars=names(xAllExtr))
-xt <- xtabs(value ~., aggregate(value ~., xMelt,mean))
-
-write.table(xt, file = "tidy_data.txt")
+tidyData<-aggregate(.~subject+activity,FUN=mean,data=tidyData)
+write.table(tidyData, file = "tidy_data.txt")
